@@ -1,20 +1,27 @@
 import { configureStore } from '@reduxjs/toolkit';
 import bibliothequeReducer from '../features/bibliotheque';
-// Définition d'un reducer initial (à remplacer par vos propres reducers)
-const initialReducer = (state = {}, action) => {
-  switch (action.type) {
-    default:
-      return state;
-  }
-};
+import fileStructureReducer from '../features/fileStructureSlice';
+import blocsReducer from '../features/blocsSlice';
 
-// Configuration du store
 const store = configureStore({
   reducer: {
     bibliotheque: bibliothequeReducer,
-    initial: initialReducer,
-    // Ajoutez d'autres reducers ici
+    fileStructure: fileStructureReducer,
+    blocs: blocsReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat((store) => (next) => (action) => {
+      const result = next(action);
+      const state = store.getState();
+      localStorage.setItem('reduxState', JSON.stringify(state));
+      return result;
+    }),
 });
+
+// Charger l'état initial depuis le localStorage
+const savedState = localStorage.getItem('reduxState');
+if (savedState) {
+  store.dispatch({ type: 'INITIALIZE_STATE', payload: JSON.parse(savedState) });
+}
 
 export default store;

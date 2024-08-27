@@ -1,4 +1,4 @@
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ajouterImage, deplacerImage, selectionnerImage, deselectionnerImage, supprimerImage, renommerImage } from '../../features/bibliotheque';
 import { selectImages, selectSelectedImage } from '../../utils/selector';
@@ -30,7 +30,7 @@ const Bibliotheque = () => {
   useEffect(() => {
     localStorage.setItem('bibliothequeImages', JSON.stringify(images));
   }, [images]);
- 
+
   // pour gerer le debut glisser-déposer
   const handleDragStart = (e, image, index) => {
     setDraggedImage({ image, index });
@@ -60,7 +60,7 @@ const Bibliotheque = () => {
       reader.onload = (event) => {
         const base64Image = event.target.result;
         // on ajoute l'image au store
-        dispatch(ajouterImage({ url: base64Image, nom: file.name, id: Date.now() }));
+        dispatch(ajouterImage({ base64: base64Image, nom: file.name, id: Date.now() }));
       };
       reader.readAsDataURL(file);
     }
@@ -100,14 +100,14 @@ const Bibliotheque = () => {
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold mb-4">Bibliothèque d&apos;images</h1>
-      
+
       <input
         type="file"
         accept="image/*"
         onChange={handleFileChange}
         className="mb-4 p-2 border border-gray-300 rounded"
       />
-      
+
       <div className="grid grid-cols-3 gap-4">
         {images.map((image, index) => (
           <div
@@ -118,10 +118,10 @@ const Bibliotheque = () => {
             onDrop={(e) => handleDrop(e, index)}
             className={`border border-gray-300 p-2 rounded cursor-move ${selectedImage && selectedImage.id === image.id ? 'ring-2 ring-blue-500' : ''}`}
           >
-            <img 
-              src={image.url} 
-              alt={image.nom} 
-              className="w-full h-40 object-cover" 
+            <img
+              src={image.url}
+              alt={image.nom}
+              className="w-full h-40 object-cover"
               onClick={() => handleImageClick(image)}
             />
             {editingImageId === image.id ? (
@@ -139,7 +139,7 @@ const Bibliotheque = () => {
             ) : (
               <>
                 <p className="mt-2 text-center">{image.nom}</p>
-                <button 
+                <button
                   onClick={() => handleRenameClick(image.id, image.nom)}
                   className="mt-1 w-full bg-green-500 text-white p-1 rounded hover:bg-green-600"
                 >
@@ -147,7 +147,7 @@ const Bibliotheque = () => {
                 </button>
               </>
             )}
-            <button 
+            <button
               onClick={() => handleDeleteImage(image.id)}
               className="mt-1 w-full bg-red-500 text-white p-1 rounded hover:bg-red-600"
             >
