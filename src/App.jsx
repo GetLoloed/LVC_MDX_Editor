@@ -266,16 +266,20 @@ function App() {
             <div className="overflow-y-auto flex-grow">
               <h3 className="text-lg font-semibold text-gray-700 mb-2">Blocs</h3>
               <div className="space-y-2">
-                {blocs.map((bloc) => (
-                  <div
-                    key={bloc.id}
-                    className="cursor-pointer hover:bg-gray-100 p-2 rounded transition-colors duration-150"
-                    onClick={() => insertBlocToMarkdown(bloc)}
-                  >
-                    <h4 className="font-medium text-gray-800">{bloc.nom}</h4>
-                    <p className="text-sm text-gray-600 truncate">{bloc.contenu.substring(0, 50)}...</p>
-                  </div>
-                ))}
+                {Array.isArray(blocs) && blocs.length > 0 ? (
+                  blocs.map((bloc) => (
+                    <div
+                      key={bloc.id}
+                      className="cursor-pointer hover:bg-gray-100 p-2 rounded transition-colors duration-150"
+                      onClick={() => insertBlocToMarkdown(bloc)}
+                    >
+                      <h4 className="font-medium text-gray-800">{bloc.nom}</h4>
+                      <p className="text-sm text-gray-600 truncate">{bloc.contenu.substring(0, 50)}...</p>
+                    </div>
+                  ))
+                ) : (
+                  <p>Aucun bloc disponible</p>
+                )}
               </div>
               <h3 className="text-lg font-semibold text-gray-700 mb-2 mt-4">Images</h3>
               <div className="grid grid-cols-2 gap-2">
