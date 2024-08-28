@@ -82,6 +82,9 @@ const Blocs = () => {
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Gestion des blocs personnalisés</h1>
       <div className="mb-4">
+        <Link to="/" className="bg-gray-500 text-white px-4 py-2 rounded mr-2">
+          Retour à l'accueil
+        </Link>
         <button
           onClick={handleCreateBloc}
           className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
