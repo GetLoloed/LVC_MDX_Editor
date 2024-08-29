@@ -10,6 +10,7 @@ import Toolbar from './Toolbar';
 import { useFileExport } from '../hooks/useFileExport';
 import { createSelector } from 'reselect';
 import showdown from 'showdown';
+import { useMarkdownShortcuts } from '../hooks/useMarkdownShortcuts';
 
 const selectFileExplorer = state => state.fileExplorer;
 
@@ -104,9 +105,12 @@ function MarkdownEditor({ className, isFileExplorerOpen, initialContent, onConte
     [selectedFile, autoSave, dispatch]
   );
 
+  const { handleShortcuts, showBubble, bubblePosition, filteredShortcuts, selectedIndex } = useMarkdownShortcuts(setMarkdown);
+
   const handleChange = useCallback((e) => {
     const newContent = e.target.value;
     setMarkdown(newContent);
+    handleShortcuts(e); // Ajoutez ceci pour vérifier les raccourcis à chaque changement
     if (isEditingBloc) {
       onContentChange(newContent);
     } else if (selectedFile) {
@@ -116,7 +120,7 @@ function MarkdownEditor({ className, isFileExplorerOpen, initialContent, onConte
       setIsSaving(true);
       debouncedSave(newContent);
     }
-  }, [isEditingBloc, onContentChange, selectedFile, markdown, debouncedSave, dispatch]);
+  }, [isEditingBloc, onContentChange, selectedFile, markdown, debouncedSave, dispatch, handleShortcuts]);
 
   const handleKeyDown = useCallback((e) => {
     const shortcuts = {
@@ -381,7 +385,7 @@ function MarkdownEditor({ className, isFileExplorerOpen, initialContent, onConte
                   className="flex-1 p-4 font-mono resize-none bg-gray-700 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 h-full"
                   value={markdown}
                   onChange={handleChange}
-                  onKeyDown={handleKeyDown}
+                  onKeyDown={handleShortcuts}
                   onScroll={handleScroll}
                 />
               </div>
@@ -411,6 +415,23 @@ function MarkdownEditor({ className, isFileExplorerOpen, initialContent, onConte
               ou créez un nouveau fichier pour démarrer un nouveau projet.
             </p>
           </div>
+        </div>
+      )}
+      {showBubble && (
+        <div
+          className="absolute bg-gray-800 border border-gray-600 rounded-md shadow-lg p-2 z-10"
+          style={{ top: bubblePosition.top, left: bubblePosition.left }}
+        >
+          {Object.entries(filteredShortcuts).map(([shortcut, { icon: Icon, description }], index) => (
+            <div
+              key={shortcut}
+              className={`flex items-center p-1 hover:bg-gray-700 cursor-pointer ${index === selectedIndex ? 'bg-gray-600' : ''}`}
+            >
+              <Icon className="mr-2" />
+              <span>{shortcut}</span>
+              <span className="ml-2 text-gray-400">{description}</span>
+            </div>
+          ))}
         </div>
       )}
     </div>
