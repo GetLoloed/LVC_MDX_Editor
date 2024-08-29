@@ -17,7 +17,7 @@ function Toolbar({ onAction, content }) {
     const fileName = selectedFile.split('/').pop();
     try {
       console.log('Début de l\'export. Fichier:', fileName, 'Chiffré:', isEncrypted);
-      console.log('Contenu à exporter:', content); // Assurez-vous que 'content' est défini et contient les données à exporter
+      console.log('Contenu à exporter:', content);
       await exportMarkdown(content, fileName, isEncrypted);
       console.log('Export réussi');
       alert('Export réussi !');

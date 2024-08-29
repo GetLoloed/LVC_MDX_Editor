@@ -4,25 +4,30 @@ import { FaSave, FaTimes } from 'react-icons/fa';
 import MarkdownEditor from './MarkDownEditor';
 
 function BlocEditor({ bloc, onSave, onClose }) {
+  // États pour le nom, le contenu et l'état de modification du bloc
   const [name, setName] = useState(bloc.name);
   const [content, setContent] = useState(bloc.content);
   const [isModified, setIsModified] = useState(false);
 
+  // Gère le changement de nom du bloc
   const handleNameChange = (e) => {
     setName(e.target.value);
     setIsModified(true);
   };
 
+  // Gère le changement de contenu du bloc
   const handleContentChange = (newContent) => {
     setContent(newContent);
     setIsModified(true);
   };
 
+  // Sauvegarde les modifications du bloc
   const handleSave = () => {
     onSave({ ...bloc, name, content });
     setIsModified(false);
   };
 
+  // Gère la fermeture de l'éditeur avec confirmation si modifié
   const handleClose = () => {
     if (isModified && !window.confirm('Des modifications non sauvegardées seront perdues. Voulez-vous vraiment fermer ?')) {
       return;

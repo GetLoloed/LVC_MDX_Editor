@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import { FaPlus, FaCheckSquare, FaSquare, FaFileExport } from 'react-icons/fa';
 
-// Définition du composant ActionButtons
 function ActionButtons({ onCreateItem, onToggleSelectAll, onExportItems, isAllSelected, isExporting, exportDisabled, showCreateButton }) {
   return (
     // Conteneur principal des boutons d'action

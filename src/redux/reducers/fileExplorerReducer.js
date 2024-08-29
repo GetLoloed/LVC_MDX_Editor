@@ -14,6 +14,7 @@ import {
   SET_SELECTED_FILE
 } from '../actions/fileExplorerActions';
 
+// Chargement de l'état depuis le localStorage
 const loadState = () => {
   try {
     const serializedState = localStorage.getItem('fileExplorerState');
@@ -22,20 +23,21 @@ const loadState = () => {
     }
     return JSON.parse(serializedState);
   } catch (err) {
-    console.error('Error loading state:', err);
     return { files: [] };
   }
 };
 
+// Sauvegarde de l'état dans le localStorage
 const saveState = (state) => {
   try {
     const serializedState = JSON.stringify(state);
     localStorage.setItem('fileExplorerState', serializedState);
   } catch (err) {
-    console.error('Error saving state:', err);
+    // Gestion silencieuse de l'erreur
   }
 };
 
+// État initial du reducer
 const initialState = {
   files: [],
   selectedFile: null,
@@ -49,6 +51,7 @@ const initialState = {
   filteredFiles: []
 };
 
+// Recherche d'un élément par son chemin
 const findItemByPath = (items, path) => {
   const parts = path.split('/').filter(Boolean);
   let current = items;
@@ -60,6 +63,7 @@ const findItemByPath = (items, path) => {
   return current;
 };
 
+// Suppression d'un élément par son chemin
 const removeItemByPath = (items, path) => {
   const pathParts = path.split('/').filter(Boolean);
   if (pathParts.length === 1) {
@@ -76,6 +80,7 @@ const removeItemByPath = (items, path) => {
   });
 };
 
+// Renommage d'un élément par son chemin
 const renameItemByPath = (items, path, newName) => {
   const pathParts = path.split('/').filter(Boolean);
   return items.map(item => {
@@ -93,6 +98,7 @@ const renameItemByPath = (items, path, newName) => {
   });
 };
 
+// Ajout d'un élément à un chemin spécifique
 const addItemToPath = (items, path, newItem) => {
   if (path === '') {
     return [...items, newItem];
@@ -119,12 +125,11 @@ const addItemToPath = (items, path, newItem) => {
   });
 };
 
+// Déplacement d'un élément dans l'arborescence
 const moveItemInTree = (items, sourcePath, targetPath) => {
-  console.log('moveItemInTree called with:', { items, sourcePath, targetPath });
   const sourcePathParts = sourcePath.split('/').filter(Boolean);
   const targetPathParts = targetPath.split('/').filter(Boolean);
 
-  // Fonction pour trouver et retirer l'élément source
   const removeSourceItem = (currentItems, pathParts) => {
     if (pathParts.length === 1) {
       const removedItem = currentItems.find(item => item.name === pathParts[0]);
@@ -140,7 +145,6 @@ const moveItemInTree = (items, sourcePath, targetPath) => {
     return [currentItems, null];
   };
 
-  // Fonction pour ajouter l'élément à la cible
   const addItemToTarget = (currentItems, pathParts, itemToAdd) => {
     if (pathParts.length === 1) {
       return [...currentItems, itemToAdd];
@@ -157,22 +161,17 @@ const moveItemInTree = (items, sourcePath, targetPath) => {
       };
       return [...currentItems.slice(0, index), updatedItem, ...currentItems.slice(index + 1)];
     }
-    console.error('Target folder does not exist:', currentPart);
     return currentItems;
   };
 
-  // Retirer l'élément source
   const [updatedItems, removedItem] = removeSourceItem([...items], sourcePathParts);
 
-  // Si l'élément n'a pas été trouvé, retourner les items inchangés
   if (!removedItem) return items;
 
-  // Ajouter l'élément à la cible
-  const result = addItemToTarget(updatedItems, targetPathParts, removedItem);
-  console.log('moveItemInTree result:', result);
-  return result;
+  return addItemToTarget(updatedItems, targetPathParts, removedItem);
 };
 
+// Mise à jour du contenu d'un fichier dans l'arborescence
 const updateFileContentInTree = (files, path, content) => {
   const pathParts = path.split('/').filter(Boolean);
   return files.map(file => {
@@ -187,9 +186,9 @@ const updateFileContentInTree = (files, path, content) => {
   });
 };
 
+// Suppression des doublons dans l'arborescence
 const removeDuplicates = (items) => {
   if (!items || !Array.isArray(items)) {
-    console.error('Items is not an array:', items);
     return [];
   }
 
@@ -206,6 +205,7 @@ const removeDuplicates = (items) => {
   });
 };
 
+// Recherche dans les fichiers
 const searchInFiles = (files, term) => {
   return files.filter(item => {
     if (item.name.toLowerCase().includes(term.toLowerCase())) {
@@ -219,6 +219,7 @@ const searchInFiles = (files, term) => {
   });
 };
 
+// Tri des éléments de fichiers
 const sortFileItems = (items, criteria) => {
   return [...items].sort((a, b) => {
     if (criteria === 'name') {
@@ -234,6 +235,7 @@ const sortFileItems = (items, criteria) => {
   });
 };
 
+// Filtrage des éléments de fichiers
 const filterFileItems = (items, type) => {
   if (type === 'all') return items;
   return items.filter(item => {
@@ -246,6 +248,7 @@ const filterFileItems = (items, type) => {
   });
 };
 
+// Reducer principal pour l'explorateur de fichiers
 const fileExplorerReducer = (state = initialState, action) => {
   let newState;
   switch (action.type) {
@@ -274,13 +277,10 @@ const fileExplorerReducer = (state = initialState, action) => {
       };
       break;
     case MOVE_ITEM:
-      console.log('Moving item:', action.payload);
       newState = {
         ...state,
         files: moveItemInTree(state.files, action.payload.sourcePath, action.payload.targetPath)
       };
-      console.log('New state after move:', newState);
-      console.log('Files structure after move:', JSON.stringify(newState.files, null, 2));
       break;
     case SELECT_FILE:
       newState = {

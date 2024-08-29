@@ -1,4 +1,6 @@
-const ENCRYPTION_KEY = 'VotreCléSecrète'; // Remplacez par une clé sécurisée
+// TODO : à corriger car ne fonctionne pas pour le decryptage
+
+const ENCRYPTION_KEY = 'MDXKEYSSSXDXD';
 
 export function encryptData(data) {
   // Ajout d'une vérification supplémentaire pour le type de données

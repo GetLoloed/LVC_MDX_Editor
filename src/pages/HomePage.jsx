@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import FileExplorer from '../components/FileExplorer';
-import MarkdownEditor from '../components/MarkdownEditor';
+import MarkdownEditor from '../components/MarkDownEditor';
 import { FaFolderOpen, FaTimes } from 'react-icons/fa';
 
 function HomePage() {

@@ -26,18 +26,18 @@ export function useFileExport() {
     }
   }, []);
 
+  // Fonction pour importer le contenu Markdown
   const importMarkdown = useCallback((file, callback) => {
     setIsImporting(true);
     const reader = new FileReader();
     reader.onload = (event) => {
       let content = event.target.result;
       try {
-        // Essayez de déchiffrer le contenu
+        // Essai de déchiffrement du contenu
         const decryptedContent = decryptData(content);
         callback(decryptedContent);
       } catch (error) {
-        // Si le déchiffrement échoue, supposez que le contenu n'est pas chiffré
-        console.log('Le fichier n\'est pas chiffré ou le déchiffrement a échoué. Utilisation du contenu brut.');
+        // Si le déchiffrement échoue, on utilise le contenu brut
         callback(content);
       } finally {
         setIsImporting(false);
@@ -46,6 +46,7 @@ export function useFileExport() {
     reader.readAsText(file);
   }, []);
 
+  // Fonction pour exporter une image
   const exportImage = useCallback(async (image) => {
     setIsExporting(true);
     try {
@@ -66,6 +67,7 @@ export function useFileExport() {
     }
   }, []);
 
+  // Fonction pour exporter plusieurs images
   const exportImages = useCallback(async (images) => {
     setIsExporting(true);
     try {
@@ -80,6 +82,7 @@ export function useFileExport() {
     }
   }, [exportImage]);
 
+  // Fonction pour exporter un bloc
   const exportBloc = useCallback(async (bloc, shouldEncrypt = false) => {
     setIsExporting(true);
     try {
@@ -101,18 +104,18 @@ export function useFileExport() {
     }
   }, []);
 
+  // Fonction pour importer un bloc
   const importBloc = useCallback((file, callback) => {
     setIsImporting(true);
     const reader = new FileReader();
     reader.onload = (event) => {
       let content = event.target.result;
       try {
-        // Essayez de déchiffrer le contenu
+        // Essai de déchiffrement du contenu
         const decryptedContent = decryptData(content);
         callback(JSON.parse(decryptedContent));
       } catch (error) {
-        // Si le déchiffrement échoue, supposez que le contenu n'est pas chiffré
-        console.log('Le fichier n\'est pas chiffré ou le déchiffrement a échoué. Utilisation du contenu brut.');
+        // Si le déchiffrement échoue, on utilise le contenu brut
         callback(JSON.parse(content));
       } finally {
         setIsImporting(false);
@@ -121,6 +124,7 @@ export function useFileExport() {
     reader.readAsText(file);
   }, []);
 
+  // Fonction pour exporter plusieurs blocs
   const exportBlocs = useCallback(async (blocs, shouldEncrypt = false) => {
     setIsExporting(true);
     try {
@@ -142,18 +146,18 @@ export function useFileExport() {
     }
   }, []);
 
+  // Fonction pour importer plusieurs blocs
   const importBlocs = useCallback((file, callback) => {
     setIsImporting(true);
     const reader = new FileReader();
     reader.onload = (event) => {
       let content = event.target.result;
       try {
-        // Essayez de déchiffrer le contenu
+        // Essai de déchiffrement du contenu
         const decryptedContent = decryptData(content);
         callback(JSON.parse(decryptedContent));
       } catch (error) {
-        // Si le déchiffrement échoue, supposez que le contenu n'est pas chiffré
-        console.log('Le fichier n\'est pas chiffré ou le déchiffrement a échoué. Utilisation du contenu brut.');
+        // Si le déchiffrement échoue, on utilise le contenu brut
         callback(JSON.parse(content));
       } finally {
         setIsImporting(false);
