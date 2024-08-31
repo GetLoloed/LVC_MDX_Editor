@@ -6,34 +6,25 @@ export default {
   ],
   theme: {
     extend: {
-      typography: (theme) => ({
-        invert: {
-          css: {
-            '--tw-prose-body': theme('colors.gray[300]'),
-            '--tw-prose-headings': theme('colors.white'),
-            '--tw-prose-links': theme('colors.blue.400'),
-            '--tw-prose-links-hover': theme('colors.blue.300'),
-            '--tw-prose-underline': 'rgba(96, 165, 250, 0.7)', // blue-400 with 70% opacity
-            '--tw-prose-underline-hover': theme('colors.blue.400'),
-            '--tw-prose-bold': theme('colors.white'),
-            '--tw-prose-counters': theme('colors.gray.400'),
-            '--tw-prose-bullets': theme('colors.gray.600'),
-            '--tw-prose-hr': theme('colors.gray.700'),
-            '--tw-prose-quote-borders': theme('colors.gray.600'),
-            '--tw-prose-captions': theme('colors.gray.400'),
-            '--tw-prose-code': theme('colors.white'),
-            '--tw-prose-pre-code': theme('colors.gray.300'),
-            '--tw-prose-pre-bg': 'rgba(0, 0, 0, 0.5)',
-            '--tw-prose-pre-border': 'transparent',
-            '--tw-prose-th-borders': theme('colors.gray.600'),
-            '--tw-prose-td-borders': theme('colors.gray.700'),
-          },
+      colors: {
+        'obsidian': {
+          'bg': '#202020',
+          'text': '#dcddde',
+          'accent': '#7f6df2',
+          'hover': '#383838',
+          'border': '#333333',
+          'code': '#2d2d2d',
         },
-      }),
+      },
+      fontFamily: {
+        sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'],
+        mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace'],
+      },
     },
   },
   plugins: [
     require('@tailwindcss/typography'),
+    require('@tailwindcss/forms'),
   ],
 }
 

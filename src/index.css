@@ -1,3 +1,114 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-obsidian-bg text-obsidian-text;
+}
+
+.markdown-preview {
+  /* Styles généraux */
+  color: #dcddde;
+  line-height: 1.6;
+
+  /* Styles pour les tableaux */
+  table {
+    border-collapse: collapse;
+    margin: 1em 0;
+    width: 100%;
+  }
+
+  th, td {
+    border: 1px solid #4f545c;
+    padding: 0.5em 1em;
+  }
+
+  th {
+    background-color: #2f3136;
+    font-weight: bold;
+  }
+
+  tr:nth-child(even) {
+    background-color: #36393f;
+  }
+
+  /* Styles pour les listes à cocher */
+  ul.contains-task-list {
+    list-style-type: none;
+    padding-left: 1em;
+  }
+
+  .task-list-item {
+    margin-bottom: 0.5em;
+  }
+
+  .task-list-item-checkbox {
+    margin-right: 0.5em;
+  }
+
+  /* Styles pour le code */
+  pre, code {
+    background-color: #2d2d2d;
+    border-radius: 3px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  pre {
+    padding: 1em;
+    overflow-x: auto;
+  }
+
+  code {
+    padding: 0.2em 0.4em;
+  }
+
+  /* Styles pour les citations */
+  blockquote {
+    border-left: 4px solid #7289da;
+    margin: 1em 0;
+    padding-left: 1em;
+    color: #b9bbbe;
+  }
+
+  /* Styles pour les liens */
+  a {
+    color: #7289da;
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  /* Styles pour les images */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .markdown-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1em 0;
+    border: 1px solid #4f545c;
+  }
+
+  .markdown-table-header {
+    background-color: #2f3136;
+  }
+
+  .markdown-table-row:nth-child(even) {
+    background-color: #36393f;
+  }
+
+  .markdown-table-header-cell,
+  .markdown-table-cell {
+    border: 1px solid #4f545c;
+    padding: 0.5em 1em;
+    text-align: left;
+  }
+
+  .markdown-table-header-cell {
+    font-weight: bold;
+  }
+}
